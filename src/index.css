@@ -5,6 +5,10 @@ body {
   align-items: center;
   min-height: 100vh;
   color: white;
+  background-image: url("./assets/bg.png");
+  background-repeat: no-repeat, repeat;
+  background-position: 180% 0%;
+  background-size: 58% 75%;
   background-color: #2a0a4a;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",

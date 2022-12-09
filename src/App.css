@@ -1,10 +1,6 @@
 .App {
   max-height: 2000px;
   max-width: 2000px;
-  background-image: url("./assets/bg.png");
-  background-repeat: no-repeat, repeat;
-  background-position: 180% 0%;
-  background-size: 58% 75%;
 }
 
 .bottom {

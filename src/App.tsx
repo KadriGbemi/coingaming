@@ -12,7 +12,7 @@ function App() {
   const { height } = useWindowHeight()
 
   const topContentStyle = {
-    paddingTop: "20px",
+    padding: "20px 0px 10px",
     minHeight: height > 1000 ? "auto" : "86vh",
     backgroundImage: `url(${Background})`,
     backgroundRepeat: "no-repeat, repeat",
