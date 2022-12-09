@@ -6,3 +6,35 @@
   background-position: 180% 0%;
   background-size: 58% 75%;
 }
+
+.bottom {
+  background: #fff;
+  padding: 30px 0;
+  max-width: 2000px;
+}
+
+.sub-title {
+  color: #827296;
+  font-size: 20px;
+}
+
+.input-container {
+  width: 100%;
+  padding: 25px 0;
+}
+
+.input-extra-description {
+  text-align: center;
+  color: #bec0c5;
+}
+
+.text-color {
+  color: #bec0c5;
+}
+
+@media screen and (max-width: 500px) {
+  .App {
+    background-position: unset;
+    background-size: unset;
+  }
+}
