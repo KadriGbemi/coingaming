@@ -26,14 +26,15 @@ root.render(
           colorText: "#FFF",
           colorLink: "#FFF",
           colorLinkHover: "#FC4B25",
-          colorTextBase: "#FFF",
+          colorTextQuaternary: "#FFF",
         },
         components: {
           Input: {
             colorText: "#000",
+            colorTextBase: "#000",
           },
           Button: {
-            colorTextBase: "#000",
+            colorTextDisabled: "rgba(0, 0, 0, 0.25)",
           },
         },
       }}
