@@ -24,11 +24,16 @@ root.render(
           colorTextHeading: "#FFF",
           colorTextTertiary: "#FFF",
           colorText: "#FFF",
+          colorLink: "#FFF",
+          colorLinkHover: "#FC4B25",
+          colorTextBase: "#FFF",
         },
         components: {
           Input: {
             colorText: "#000",
-            colorTextBase: "#FFF",
+          },
+          Button: {
+            colorTextBase: "#000",
           },
         },
       }}

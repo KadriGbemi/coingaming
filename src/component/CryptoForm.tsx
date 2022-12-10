@@ -1,4 +1,14 @@
-import { Row, Col, Form, Typography, Space, Card, Input, Button } from "antd"
+import {
+  Row,
+  Col,
+  Form,
+  Typography,
+  Space,
+  Card,
+  Input,
+  Button,
+  FormInstance,
+} from "antd"
 
 const { Title, Text } = Typography
 
@@ -9,7 +19,7 @@ const CrptoForm = ({
 }: {
   loading: boolean
   handleSubmit?: (values: any) => void
-  form: any
+  form: FormInstance<any>
 }) => {
   return (
     <Row justify="space-between" gutter={[20, 20]}>

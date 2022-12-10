@@ -1,13 +1,17 @@
 import { useState } from "react"
 import head from "lodash/head"
 import get from "lodash/get"
-import { ReactComponent as Logo } from "./assets/logo.svg"
 import { useLazyQuery } from "@apollo/client"
 import { Row, Col, Typography, Form } from "antd"
+
 import CryptoCurrencyList from "./component/CryptoCurrencyList"
 import CryptoForm from "./component/CryptoForm"
-import useWindowHeight from "./hook/useWindowHeight"
+
+import { ReactComponent as Logo } from "./assets/logo.svg"
 import Background from "./assets/figure.png"
+
+import useWindowHeight from "./hook/useWindowHeight"
+import { CryptoFormSubmitProps, MarketProps } from "./types"
 
 import { GET_PRICES } from "./api"
 
@@ -25,6 +29,7 @@ function App() {
 
   const [getCryptoData, { loading }] = useLazyQuery(GET_PRICES, {
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
     onError: (error) => {
       return form.setFields([
         { name: "cryptocurrency", errors: [error?.message] },
@@ -61,13 +66,19 @@ function App() {
     backgroundSize: height > 1000 ? "22%" : "30%",
   }
 
+  const handleCryptoListDelete = (key: string) => {
+    const data: MarketProps = { ...cryptocurrenciesData }
+
+    delete data[key]
+
+    setCryptocurrenciesData(Object.assign({}, data))
+  }
+
   const handleCryptoFormSubmit = ({
     cryptocurrency,
-  }: {
-    cryptocurrency: string
-  }) => {
-    console.log("Submitted values", cryptocurrency)
+  }: CryptoFormSubmitProps) => {
     setCryptocurrencyInput(cryptocurrency)
+
     getCryptoData({ variables: { value: cryptocurrency } })
   }
 
@@ -94,7 +105,10 @@ function App() {
                 </Row>
               </Col>
               <Col span={24} md={8}>
-                <CryptoCurrencyList data={cryptocurrenciesData} />
+                <CryptoCurrencyList
+                  data={cryptocurrenciesData}
+                  handleDelete={handleCryptoListDelete}
+                />
               </Col>
             </Row>
           </Col>
