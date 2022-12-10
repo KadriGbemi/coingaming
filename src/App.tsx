@@ -1,14 +1,55 @@
+import { useState } from "react"
+import head from "lodash/head"
+import get from "lodash/get"
 import { ReactComponent as Logo } from "./assets/logo.svg"
-import { Row, Col, Typography, Space, Card, Input, Button } from "antd"
-import CoinList from "./component/List"
+import { useLazyQuery } from "@apollo/client"
+import { Row, Col, Typography, Form } from "antd"
+import CryptoCurrencyList from "./component/CryptoCurrencyList"
+import CryptoForm from "./component/CryptoForm"
 import useWindowHeight from "./hook/useWindowHeight"
 import Background from "./assets/figure.png"
 
+import { GET_PRICES } from "./api"
+
 import "./App.css"
 
-const { Title, Text } = Typography
+const { Text } = Typography
+
+const roundToTwoDecimalPlaces = (number: number) =>
+  Math.round((number + Number.EPSILON) * 100) / 100
 
 function App() {
+  const [cryptocurrenciesData, setCryptocurrenciesData] = useState({})
+  const [cryptocurrencyInput, setCryptocurrencyInput] = useState("")
+  const [form] = Form.useForm()
+
+  const [getCryptoData, { loading }] = useLazyQuery(GET_PRICES, {
+    notifyOnNetworkStatusChange: true,
+    onError: (error) => {
+      return form.setFields([
+        { name: "cryptocurrency", errors: [error?.message] },
+      ])
+    },
+    onCompleted: (response) => {
+      const market = head(response?.markets)
+      const price = get(market, "ticker.lastPrice")
+
+      if (!market) {
+        return form.setFields([
+          { name: "cryptocurrency", errors: ["Value does not have a price"] },
+        ])
+      }
+
+      const key = cryptocurrencyInput.toUpperCase()
+
+      setCryptocurrenciesData(
+        Object.assign(cryptocurrenciesData, {
+          [key]: price && roundToTwoDecimalPlaces(Number(price)),
+        })
+      )
+    },
+  })
+
   const { height } = useWindowHeight()
 
   const topContentStyle = {
@@ -18,6 +59,16 @@ function App() {
     backgroundRepeat: "no-repeat, repeat",
     backgroundPosition: "center bottom",
     backgroundSize: height > 1000 ? "22%" : "30%",
+  }
+
+  const handleCryptoFormSubmit = ({
+    cryptocurrency,
+  }: {
+    cryptocurrency: string
+  }) => {
+    console.log("Submitted values", cryptocurrency)
+    setCryptocurrencyInput(cryptocurrency)
+    getCryptoData({ variables: { value: cryptocurrency } })
   }
 
   return (
@@ -34,52 +85,16 @@ function App() {
                     </Row>
                   </Col>
                   <Col span={24}>
-                    <Row justify="space-between" gutter={[20, 20]}>
-                      <Col span={24} md={12} lg={8}>
-                        <Row>
-                          <Col span={24}>
-                            <Title level={1}>
-                              Now you can track all your cryptos here!
-                            </Title>
-                          </Col>
-                          <Col span={24} md={15}>
-                            <Text className="sub-title">
-                              Just enter the cryptocurrency code on the form to
-                              the right
-                            </Text>
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col span={24} md={12} lg={7}>
-                        <Card>
-                          <Row gutter={[10, 10]}>
-                            <Col span={24}>
-                              <Space
-                                direction="vertical"
-                                size={10}
-                                className="input-container"
-                              >
-                                <Input placeholder="Basic usage" size="large" />
-                                <Button type="primary" size="large" block>
-                                  Add
-                                </Button>
-                              </Space>
-                            </Col>
-                            <Col span={24}>
-                              <Text className="input-extra-description">
-                                Use of this service is subject to terms and
-                                conditions
-                              </Text>
-                            </Col>
-                          </Row>
-                        </Card>
-                      </Col>
-                    </Row>
+                    <CryptoForm
+                      handleSubmit={handleCryptoFormSubmit}
+                      form={form}
+                      loading={loading}
+                    />
                   </Col>
                 </Row>
               </Col>
               <Col span={24} md={8}>
-                <CoinList />
+                <CryptoCurrencyList data={cryptocurrenciesData} />
               </Col>
             </Row>
           </Col>

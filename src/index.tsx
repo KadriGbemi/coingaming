@@ -2,11 +2,18 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { ConfigProvider } from "antd"
 import App from "./App"
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client"
+
 import reportWebVitals from "./reportWebVitals"
 
 import "./index.css"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
+
+const client = new ApolloClient({
+  uri: "https://api.blocktap.io/graphql",
+  cache: new InMemoryCache(),
+})
 
 root.render(
   <React.StrictMode>
@@ -18,9 +25,17 @@ root.render(
           colorTextTertiary: "#FFF",
           colorText: "#FFF",
         },
+        components: {
+          Input: {
+            colorText: "#000",
+            colorTextBase: "#FFF",
+          },
+        },
       }}
     >
-      <App />
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
     </ConfigProvider>
   </React.StrictMode>
 )
