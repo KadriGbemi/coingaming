@@ -6,7 +6,7 @@ import { CryptoCurrencyListProps } from "../types"
 const { Paragraph, Text } = Typography
 
 const CryptoCurrencyListStyle = {
-  height: "255px",
+  height: "230px",
   minWidth: "310px",
   overflow: "auto",
 }

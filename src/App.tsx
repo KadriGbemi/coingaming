@@ -58,8 +58,8 @@ function App() {
   const { height } = useWindowHeight()
 
   const topContentStyle = {
-    padding: "20px 0px 10px",
-    minHeight: height > 1000 ? "auto" : "86vh",
+    padding: "15px 0px 10px",
+    minHeight: height > 1000 ? "auto" : "90vh",
     backgroundImage: `url(${Background})`,
     backgroundRepeat: "no-repeat, repeat",
     backgroundPosition: "center bottom",
@@ -87,9 +87,9 @@ function App() {
       <Col span={24} style={topContentStyle}>
         <Row justify="center">
           <Col span={20}>
-            <Row gutter={[25, 25]}>
+            <Row gutter={[15, 15]}>
               <Col span={24}>
-                <Row gutter={[30, 30]}>
+                <Row gutter={[15, 15]}>
                   <Col span={24}>
                     <Row justify="start">
                       <Logo />
